@@ -1,13 +1,16 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api';
 import SlimSelect from 'slim-select';
-import Notiflix from 'notiflix';
+
+import Swal from 'sweetalert2';
+
+// CommonJS
 
 const select = document.querySelector('.breed-select');
 const catInfo = document.querySelector('.cat-info');
 const loadingMessage = document.querySelector('.loder-wrapper');
-const wrongMessage = document.querySelector('.error');
+
 select.classList.add('hidden');
-wrongMessage.classList.add('hidden');
+
 let array = [];
 
 console.log(select);
@@ -27,7 +30,11 @@ function makeAList(promise) {
     .catch(error => {
       console.log('error while receiving data ' + error);
       loadingMessage.classList.add('hidden');
-      wrongMessage.classList.remove('hidden');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+      });
     });
 }
 
@@ -50,13 +57,11 @@ select.addEventListener('change', evnt => {
       catInfo.insertAdjacentHTML('beforeend', string);
     })
     .catch(() => {
-      wrongMessage.classList.remove('hidden');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+      });
       loadingMessage.classList.add('hidden');
     });
 });
-
-// for the text
-// let index = evnt.target.selectedIndex;
-// let text = evnt.target.options[index].text;
-//show this text
-// console.log(text);
